@@ -137,12 +137,15 @@ test("no-module-scope-init: React factories are not config", () => {
 test("no-upward-import", () => {
     // A synthetic workspace, so the test says what the rule does rather than
     // what this repository happens to contain: two ordered tiers, two leaves,
-    // and one exempt directory that is outside the layering entirely.
-    const root = mkdtempSync(join(tmpdir(), "layering-"));
+    // and one exempt directory that is outside the layering entirely. It sits
+    // under a path that spells a tier and a type dir, and the exempt namespace
+    // is itself a type dir, so a verdict read off the checkout path would show.
+    const tmp = mkdtempSync(join(tmpdir(), "layering-"));
+    const root = join(tmp, "base", "libjs", "w");
     for (const ns of ["base", "mid", "red", "blue", "tools"]) {
         mkdirSync(join(root, ns, "libjs", "ui", "src"), { recursive: true });
     }
-    const opts = [{ tiers: ["base", "mid"], exempt: ["tools"], typeDirs: ["libjs"] }];
+    const opts = [{ tiers: ["base", "mid"], exempt: ["tools"], typeDirs: ["libjs", "tools"] }];
     const at = (ns) => ({
         filename: join(root, ns, "libjs", "ui", "src", "x.ts"),
         options: opts,
@@ -155,7 +158,8 @@ test("no-upward-import", () => {
             { code: "import x from '@base/ui'", ...at("mid") },
             { code: "import x from '@mid/ui'", ...at("red") },
             { code: "import x from '@base/ui'", ...at("red") },
-            // Exempt: outside the layering, so nothing is banned for it.
+            // Exempt: outside the layering, so nothing is banned for it, and
+            // sharing its name with a type dir changes nothing.
             { code: "import x from '@red/ui'", ...at("tools") },
             // Unconfigured is a no-op, which is the public default.
             { code: "import x from '@red/ui'", filename: join(root, "base", "libjs", "ui", "src", "x.ts") },
@@ -169,7 +173,7 @@ test("no-upward-import", () => {
         ],
     });
 
-    rmSync(root, { recursive: true, force: true });
+    rmSync(tmp, { recursive: true, force: true });
 });
 
 test("us-spelling: fixes comments, never string literals", () => {

@@ -73,6 +73,10 @@ workspace root — the directory holding every tier as a child — rather than l
 containing one of `typeDirs` is a leaf. So adding a leaf needs no config change, and no package has
 to hold a list of its siblings.
 
+A file's namespace is its top-level directory under that root, so neither the path the workspace is
+checked out at nor the package's own name changes the verdict. Outside a workspace there is no root,
+and a scoped package's scope is its namespace.
+
 ## Ignores
 
 `house`, and so every preset, globally ignores `.design-sync/**`, `.ds-sync/**` and

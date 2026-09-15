@@ -1,0 +1,73 @@
+{
+    "name": "@mslmio/eslint-config",
+    "version": "1.0.0",
+    "description": "Shareable ESLint flat config and house rules: US spelling, library hygiene, workspace layering, and Tailwind/React conventions.",
+    "keywords": [
+        "eslint",
+        "eslintconfig",
+        "eslint-config",
+        "eslint-plugin",
+        "flat-config",
+        "typescript",
+        "monorepo",
+        "layering",
+        "tailwind",
+        "react"
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/mslmio/eslint-config",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/mslmio/eslint-config.git"
+    },
+    "bugs": {
+        "url": "https://github.com/mslmio/eslint-config/issues"
+    },
+    "type": "module",
+    "packageManager": "pnpm@11.1.0",
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "exports": {
+        ".": "./index.js",
+        "./ui": "./ui.js",
+        "./plugin": "./plugin.js"
+    },
+    "files": [
+        "index.js",
+        "ui.js",
+        "plugin.js",
+        "rules/*.js",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "test": "node --test test/*.test.js",
+        "pub-dryrun": "pnpm run lint && pnpm publish --no-git-checks --dry-run",
+        "pub": "pnpm run lint && pnpm publish --no-git-checks",
+        "lint": "eslint"
+    },
+    "peerDependencies": {
+        "eslint": ">=9.30.0",
+        "@shadcn/lint": "^0.1.0",
+        "eslint-plugin-react-hooks": "^5.2.0"
+    },
+    "peerDependenciesMeta": {
+        "@shadcn/lint": {
+            "optional": true
+        },
+        "eslint-plugin-react-hooks": {
+            "optional": true
+        }
+    },
+    "dependencies": {
+        "@typescript-eslint/eslint-plugin": "8.70.0",
+        "@typescript-eslint/parser": "8.70.0"
+    },
+    "devDependencies": {
+        "eslint": "^9.39.4",
+        "@shadcn/lint": "0.1.0",
+        "eslint-plugin-react-hooks": "^5.2.0"
+    }
+}

@@ -1,6 +1,6 @@
 {
     "name": "@mslmio/eslint-config",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "description": "Shareable ESLint flat config and house rules: US spelling, library hygiene, workspace layering, and Tailwind/React conventions.",
     "keywords": [
         "eslint",
@@ -49,9 +49,9 @@
         "lint": "eslint"
     },
     "peerDependencies": {
-        "eslint": ">=9.30.0",
+        "eslint": "^9.30.0 || ^10.0.0",
         "@shadcn/lint": "^0.1.0",
-        "eslint-plugin-react-hooks": "^5.2.0"
+        "eslint-plugin-react-hooks": "^5.2.0 || ^6.0.0 || ^7.0.0"
     },
     "peerDependenciesMeta": {
         "@shadcn/lint": {
@@ -66,8 +66,8 @@
         "@typescript-eslint/parser": "8.70.0"
     },
     "devDependencies": {
-        "eslint": "^9.39.4",
+        "eslint": "^10.10.0",
         "@shadcn/lint": "0.1.0",
-        "eslint-plugin-react-hooks": "^5.2.0"
+        "eslint-plugin-react-hooks": "^7.1.1"
     }
 }

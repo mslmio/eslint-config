@@ -97,10 +97,18 @@ test("require-leading-with-text-size", () => {
             '<div className="text-sm" />',
             '<div className="text-[oklch(0.5_0.13_70)]" />',
             'cn("text-[13px]", "leading-relaxed")',
+            // Unhinted variables are colors.
+            '<div className="text-[var(--chart-2)]" />',
+            '<div className="text-(--chart-2)" />',
+            '<div className="text-[color:var(--gap-4px)]" />',
+            '<div className="text-(length:--size)/[1.4]" />',
         ],
         invalid: [
             { code: '<div className="text-[0.8125rem]" />', errors: [{ messageId: "needsLeading" }] },
             { code: 'cn("px-2 text-[10px] font-medium")', errors: 1 },
+            { code: '<div className="text-[clamp(29px,4.2vw,52px)]" />', errors: 1 },
+            { code: '<div className="text-[length:var(--size)]" />', errors: 1 },
+            { code: '<div className="text-(length:--size)" />', errors: 1 },
         ],
     });
 });

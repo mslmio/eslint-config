@@ -18,7 +18,10 @@ design rationale behind the rules, for anyone changing them.
   map is the reason the rule is usable at `error`.
 - **`require-leading-with-text-size` must tell a size from a color.** `text-[0.8125rem]` is the bug;
   `text-[oklch(...)]` is a color and needs no line height. `isLength` is what separates them - a
-  naive `text-\[` match makes the rule unusable.
+  naive `text-\[` match makes the rule unusable. **An unhinted variable is a color**:
+  Tailwind reads `text-[var(--x)]` and `text-(--x)` as `color`, and only a `length:` hint makes one a
+  size. Until 1.1.1 the rule called `var()` a size, and the "fix" it prompted
+  (`text-[var(--chart-2)]/[1.5]`) compiled to an invalid 150% color-mix that dropped the color.
 - **`no-property-shorthand` exists because the built-in `object-shorthand` is a near-miss.** Its
   `"never"` setting also bans METHOD shorthand (`create(ctx) {}`), which the convention never
   asked for and which is the mandatory idiom for an ESLint visitor - the config could not lint

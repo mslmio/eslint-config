@@ -1,7 +1,11 @@
 const CLASS_FNS = new Set(["cn", "clsx", "cva", "classNames", "twMerge", "twJoin"]);
 const COLOR_RE = /^(#|rgba?\(|hsla?\(|oklch\(|oklab\(|lab\(|lch\(|color-mix\(|currentColor|transparent)/i;
-const LENGTH_RE = /(^|[\d.])(rem|px|em|ex|ch|vw|vh|vmin|vmax|pt|pc|%)\b|^(calc|clamp|min|max|var)\(|^[\d.]+$/;
-const TEXT_ARB_RE = /\btext-\[([^\]]+)\](\/\S+)?/g;
+const LENGTH_RE = /(^|[\d.])(rem|px|em|ex|ch|vw|vh|vmin|vmax|pt|pc|%)\b|^(calc|clamp|min|max)\(|^[\d.]+$/;
+// The type hints Tailwind resolves `text-` to a font size for. Any other hint names a color.
+const SIZE_HINT_RE = /^(length|percentage|absolute-size|relative-size):/;
+const HINT_RE = /^[a-z-]+:/;
+// `text-[...]`, or the `text-(...)` variable shorthand, with an optional `/leading` modifier.
+const TEXT_ARB_RE = /\btext-(?:\[([^\]]+)\]|\(([^)]+)\))(\/\S+)?/g;
 
 export default {
     meta: {
@@ -13,9 +17,9 @@ export default {
         schema: [{ type: "object", properties: { docsUrl: { type: "string" } }, additionalProperties: false }],
         messages: {
             needsLeading:
-                "`text-[{{value}}]` sets a font SIZE only, so line height comes from whatever ancestor " +
+                "`{{value}}` sets a font SIZE only, so line height comes from whatever ancestor " +
                 "set one - which differs between hosts and renders the same row at two heights. State it: " +
-                "`text-[{{value}}]/[<leading>]` or an explicit `leading-*`.{{docs}}",
+                "`{{value}}/[<leading>]` or an explicit `leading-*`.{{docs}}",
         },
     },
     create(context) {
@@ -29,10 +33,10 @@ export default {
             }
             for (const part of parts) {
                 for (const m of part.matchAll(TEXT_ARB_RE)) {
-                    if (m[2] || !isLength(m[1])) {
+                    if (m[3] || !isLength(m[1] ?? m[2])) {
                         continue;
                     }
-                    context.report({ node: node, messageId: "needsLeading", data: { value: m[1], docs: docs } });
+                    context.report({ node: node, messageId: "needsLeading", data: { value: m[0], docs: docs } });
                 }
             }
         };
@@ -74,7 +78,13 @@ function collectStrings(node, seen) {
 
 function isLength(value) {
     const v = value.trim();
-    if (COLOR_RE.test(v)) {
+    if (SIZE_HINT_RE.test(v)) {
+        return true;
+    }
+    // An unhinted variable is a COLOR: Tailwind reads `text-[var(--chart-2)]` and `text-(--chart-2)`
+    // as `color`. Calling it a size once got it "fixed" to `text-[var(--chart-2)]/[1.5]`, which
+    // compiles to a 150% color-mix - invalid, so the text silently lost its color.
+    if (HINT_RE.test(v) || v.startsWith("var(") || v.startsWith("--") || COLOR_RE.test(v)) {
         return false;
     }
     return LENGTH_RE.test(v);

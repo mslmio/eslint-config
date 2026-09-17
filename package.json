@@ -1,6 +1,6 @@
 {
     "name": "@mslmio/eslint-config",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Shareable ESLint flat config and house rules: US spelling, library hygiene, workspace layering, and Tailwind/React conventions.",
     "keywords": [
         "eslint",

@@ -53,6 +53,7 @@ export const ui = [
         rules: {
             "mslmio/require-leading-with-text-size": "error",
             "mslmio/prefer-copy-icon": "error",
+            "mslmio/prefer-table-facets": "error",
         },
     },
 ];

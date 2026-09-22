@@ -28,7 +28,7 @@ UI half behind `/ui` means the root entry resolves neither `@shadcn/lint` nor
 |---|---|---|
 | `house` | anything TS/JS | `no-property-shorthand`, `curly: all`, `us-spelling`, `no-express-json-spaces` |
 | `lib` | a published library | house + `no-lib-process-env`, `no-module-scope-init` |
-| `ui` | anything rendering Tailwind | house + `require-leading-with-text-size`, `prefer-copy-icon` |
+| `ui` | anything rendering Tailwind | house + `require-leading-with-text-size`, `prefer-copy-icon`, `prefer-table-facets` |
 | `uiLib` | a published UI library | `lib` + `ui` |
 
 ## Rules
@@ -43,6 +43,7 @@ UI half behind `/ui` means the root entry resolves neither `@shadcn/lint` nor
 | `prefer-copy-icon` | lucide `Copy`, not `Clipboard` |
 | `us-spelling` | US spelling in prose and identifiers |
 | `require-leading-with-text-size` | An arbitrary Tailwind text size must state its own line height |
+| `prefer-table-facets` | A `kind: "select"` filter lists the values its rows hold (facets), never a literal `options` list |
 
 `us-spelling` skips regex literals — a pattern matching scraped text has to accept both
 spellings — and takes `allow` for proper names that keep their own:

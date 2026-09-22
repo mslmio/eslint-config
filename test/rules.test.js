@@ -11,6 +11,7 @@ import usSpelling from "../rules/us-spelling.js";
 import requireLeading from "../rules/require-leading-with-text-size.js";
 import noPropertyShorthand from "../rules/no-property-shorthand.js";
 import noUpwardImport from "../rules/no-upward-import.js";
+import preferTableFacets from "../rules/prefer-table-facets.js";
 
 const ts = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "module" } });
 const jsx = new RuleTester({
@@ -193,6 +194,33 @@ test("us-spelling: fixes comments, never string literals", () => {
             // A string may be a wire value - reported, never rewritten.
             { code: "const a = 'the datacentre'", output: null, errors: 1 },
             { code: "const o = { k: 'licence' }", output: null, errors: 1 },
+        ],
+    });
+});
+
+test("prefer-table-facets", () => {
+    ts.run("prefer-table-facets", preferTableFacets, {
+        valid: [
+            "const f = [{ field: \"status\", kind: \"select\" }];",
+            "const f = [{ field: \"role\", kind: \"select\", options: roles.map((r) => ({ value: r.key, label: r.name })) }];",
+            "const f = [{ field: \"base\", kind: \"select\", options: (all ?? []).map((d) => ({ value: d.base, label: d.name })) }];",
+            "const f = [{ field: \"x\", kind: \"text\", options: [\"a\"] }];",
+            "const label = Object.fromEntries(Object.entries(OUTCOME).map(([k, o]) => [k, o.label]));",
+        ],
+        invalid: [
+            {
+                code: "const f = [{ kind: \"select\", options: [{ value: \"a\", label: \"A\" }] }];",
+                errors: [{ messageId: "literal" }],
+            },
+            {
+                code: "const f = [{ kind: \"select\", options: [\"200\", \"302\"].map((v) => ({ value: v, label: v })) }];",
+                errors: [{ messageId: "literal" }],
+            },
+            {
+                code: "const f = [{ kind: \"select\", options: Object.entries(S).map(([k, v]) => ({ value: k, label: v.label })) }];",
+                options: [{ docsUrl: "https://example.com/facets" }],
+                errors: [{ message: /See https:\/\/example\.com\/facets\.$/ }],
+            },
         ],
     });
 });

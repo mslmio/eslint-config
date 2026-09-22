@@ -6,9 +6,10 @@ import usSpelling from "./rules/us-spelling.js";
 import requireLeadingWithTextSize from "./rules/require-leading-with-text-size.js";
 import noPropertyShorthand from "./rules/no-property-shorthand.js";
 import noUpwardImport from "./rules/no-upward-import.js";
+import preferTableFacets from "./rules/prefer-table-facets.js";
 
 export default {
-    meta: { name: "@mslmio/eslint-plugin", version: "2.4.0" },
+    meta: { name: "@mslmio/eslint-plugin", version: "2.5.0" },
     rules: {
         "no-lib-process-env": noLibProcessEnv,
         "no-module-scope-init": noModuleScopeInit,
@@ -18,5 +19,6 @@ export default {
         "require-leading-with-text-size": requireLeadingWithTextSize,
         "no-property-shorthand": noPropertyShorthand,
         "no-upward-import": noUpwardImport,
+        "prefer-table-facets": preferTableFacets,
     },
 };

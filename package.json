@@ -9,7 +9,7 @@
         "eslint-plugin",
         "flat-config",
         "typescript",
-        "monorepo",
+        "workspace",
         "layering",
         "tailwind",
         "react"

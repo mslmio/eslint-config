@@ -4,13 +4,6 @@ import tsPlugin from "@typescript-eslint/eslint-plugin";
 
 const TS_GLOBS = ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.js", "**/*.mjs"];
 
-// design-sync scratch and its generated bundle. All three are gitignored, and `ds-src` holds
-// symlinks that dangle the moment a component moves - which makes `eslint .` exit on ENOENT
-// rather than report. Flat config does not read .gitignore, so every consumer needs this.
-export const designSyncIgnores = {
-    ignores: [".design-sync/**", ".ds-sync/**", "ds-bundle/**"],
-};
-
 // The @typescript-eslint rule set. Without this the parser parses TypeScript and
 // NOTHING lints it - no unused vars, no floating promises, no unsafe any. The rules
 // go in `house` (so every consumer gets them) while the PARSER stays out of it, since
@@ -42,7 +35,6 @@ typescriptRules.push({
 
 // Every rule here encodes a documented house rule. Adding one means editing
 export const house = [
-    designSyncIgnores,
     ...typescriptRules,
     {
         files: TS_GLOBS,

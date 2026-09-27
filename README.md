@@ -78,13 +78,6 @@ A file's namespace is its top-level directory under that root, so neither the pa
 checked out at nor the package's own name changes the verdict. Outside a workspace there is no root,
 and a scoped package's scope is its namespace.
 
-## Ignores
-
-`house`, and so every preset, globally ignores `.design-sync/**`, `.ds-sync/**` and
-`ds-bundle/**`. Flat config does not read `.gitignore`, and these hold symlinks into app
-components — one moved component leaves a dangling link and `eslint .` exits `ENOENT` instead of
-reporting anything.
-
 ## License
 
 MIT

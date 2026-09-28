@@ -2,6 +2,13 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.0.1 - 2026-09-28
+
+### Fixes
+
+- no-lib-process-env: domain.ts is not the entry point main.ts ([`d9ae9e6`](https://github.com/mslmio/eslint-config/commit/d9ae9e6d95461a3b6483692ad3492938d54ae5eb))
+- Spell memoize the US way in no-module-scope-init's message and the README ([`6c4e7bf`](https://github.com/mslmio/eslint-config/commit/6c4e7bf29c026508a9c9a0cadaf88e6cbfca5d77))
+
 ## 2.0.0 - 2026-09-27
 
 ### Breaking changes

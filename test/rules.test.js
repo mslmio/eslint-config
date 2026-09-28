@@ -27,10 +27,23 @@ test("no-lib-process-env", () => {
         valid: [
             { code: "export function f(cfg) { return cfg.url }" },
             { code: "const u = process.env.URL", filename: "/x/main.ts" },
+            {
+                code: "const u = process.env.URL",
+                filename: "/x/bin/cli.ts",
+                options: [{ entryPoints: ["bin/cli.ts"] }],
+            },
         ],
         invalid: [
             { code: "const u = process.env.URL", errors: [{ messageId: "libReadsEnv" }] },
             { code: "export const f = () => process.env.A ?? 'b'", errors: 1 },
+            // An entry point is a whole file name: `main.ts` is not the end of `domain.ts`.
+            { code: "const u = process.env.URL", filename: "/x/domain.ts", errors: 1 },
+            {
+                code: "const u = process.env.URL",
+                filename: "/x/mycli.ts",
+                options: [{ entryPoints: ["cli.ts"] }],
+                errors: 1,
+            },
         ],
     });
 });

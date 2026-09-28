@@ -28,8 +28,9 @@ export default {
     create(context) {
         const docs = docsSuffix(context);
         const entryPoints = context.options[0]?.entryPoints ?? DEFAULT_ENTRY_POINTS;
-        const filename = context.filename ?? context.getFilename();
-        if (entryPoints.some((e) => filename.endsWith(e))) {
+        const filename = (context.filename ?? context.getFilename()).replaceAll("\\", "/");
+        // Whole trailing path segments, so `main.ts` exempts `src/main.ts` and never `domain.ts`.
+        if (entryPoints.some((e) => `/${filename}`.endsWith(`/${e}`))) {
             return {};
         }
         return {

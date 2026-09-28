@@ -36,7 +36,7 @@ export default {
             moduleScopeInit:
                 "`{{name}}` is constructed at module scope, so it runs on import - before any caller " +
                 "can configure it, and in every process that merely imports this file. Build it lazily " +
-                "inside a function and memoise.{{docs}}",
+                "inside a function and memoize.{{docs}}",
         },
     },
     create(context) {

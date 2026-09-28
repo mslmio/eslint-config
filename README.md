@@ -38,7 +38,7 @@ UI half behind `/ui` means the root entry resolves neither `@shadcn/lint` nor
 | `no-upward-import` | A package may not import a tier above it, or a sibling leaf. Off until configured — see below |
 | `no-property-shorthand` | Always `{ key: key }`; exempts destructuring and imports |
 | `no-lib-process-env` | A library never reads `process.env` — configuration is passed in |
-| `no-module-scope-init` | No client/config built at module scope; build lazily and memoise |
+| `no-module-scope-init` | No client/config built at module scope; build lazily and memoize |
 | `no-express-json-spaces` | Express's `json spaces` indents but drops the trailing newline |
 | `prefer-copy-icon` | lucide `Copy`, not `Clipboard` |
 | `us-spelling` | US spelling in prose and identifiers |

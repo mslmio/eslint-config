@@ -9,7 +9,7 @@ import noUpwardImport from "./rules/no-upward-import.js";
 import preferTableFacets from "./rules/prefer-table-facets.js";
 
 export default {
-    meta: { name: "@mslmio/eslint-plugin", version: "2.0.1" },
+    meta: { name: "@mslmio/eslint-plugin", version: "2.1.0" },
     rules: {
         "no-lib-process-env": noLibProcessEnv,
         "no-module-scope-init": noModuleScopeInit,

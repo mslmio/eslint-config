@@ -211,6 +211,23 @@ test("us-spelling: fixes comments, never string literals", () => {
     });
 });
 
+test("us-spelling: inflected forms", () => {
+    ts.run("us-spelling", usSpelling, {
+        valid: [
+            // The plural of analysis, spelled the same in both.
+            "const a = 'two analyses'",
+            "const a = 'memoize memoized memoizes memoizing memoization'",
+        ],
+        invalid: [
+            { code: "// memoised", output: "// memoized", errors: 1 },
+            { code: "// Normalises", output: "// Normalizes", errors: 1 },
+            { code: "// SYNCHRONISATIONS", output: "// SYNCHRONIZATIONS", errors: 1 },
+            { code: "const a = 'it recognises'", output: null, errors: 1 },
+            { code: "const a = 'favour, favoured, honoured, neighbouring, behavioural'", errors: 5 },
+        ],
+    });
+});
+
 test("prefer-table-facets", () => {
     ts.run("prefer-table-facets", preferTableFacets, {
         valid: [

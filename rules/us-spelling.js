@@ -1,13 +1,27 @@
 const COMPOUND_STEMS = { centre: "center", centres: "centers", centred: "centered" };
 
+// Each -ise verb in every form: -ise, -ised, -ises, -ising and -isation(s).
+const ISE_VERBS = {
+    apologise: "apologize", authorise: "authorize", categorise: "categorize", criticise: "criticize",
+    customise: "customize", emphasise: "emphasize", initialise: "initialize", maximise: "maximize",
+    memoise: "memoize", memorise: "memorize", minimise: "minimize", normalise: "normalize",
+    optimise: "optimize", organise: "organize", prioritise: "prioritize", realise: "realize",
+    recognise: "recognize", serialise: "serialize", specialise: "specialize",
+    standardise: "standardize", summarise: "summarize", synchronise: "synchronize",
+    utilise: "utilize", visualise: "visualize",
+};
+const ISE_ENDINGS = ["e", "ed", "es", "ing", "ation", "ations"];
+
 const WORDS = {
     metre: "meter", metres: "meters", litre: "liter", litres: "liters",
     fibre: "fiber", fibres: "fibers", theatre: "theater", calibre: "caliber",
     sombre: "somber", spectre: "specter", lustre: "luster", manoeuvre: "maneuver",
     colour: "color", colours: "colors", coloured: "colored", colourful: "colorful",
-    behaviour: "behavior", behaviours: "behaviors", favourite: "favorite",
-    favourites: "favorites", honour: "honor", neighbour: "neighbor",
-    neighbours: "neighbors", labour: "labor", flavour: "flavor", flavours: "flavors",
+    behaviour: "behavior", behaviours: "behaviors", behavioural: "behavioral",
+    favour: "favor", favours: "favors", favoured: "favored", favouring: "favoring",
+    favourite: "favorite", favourites: "favorites", honour: "honor", honours: "honors",
+    honoured: "honored", honouring: "honoring", neighbour: "neighbor", neighbours: "neighbors",
+    neighbouring: "neighboring", labour: "labor", flavour: "flavor", flavours: "flavors",
     harbour: "harbor", rumour: "rumor", humour: "humor", odour: "odor",
     vapour: "vapor", armour: "armor", endeavour: "endeavor", parlour: "parlor",
     savour: "savor", valour: "valor",
@@ -22,19 +36,11 @@ const WORDS = {
     modelling: "modeling", labelled: "labeled", labelling: "labeling",
     fuelled: "fueled", signalling: "signaling", marvellous: "marvelous",
     skilful: "skillful", enrol: "enroll", fulfil: "fulfill", instalment: "installment",
-    organise: "organize", organised: "organized", organisation: "organization",
-    organisations: "organizations", recognise: "recognize", recognised: "recognized",
-    realise: "realize", realised: "realized", apologise: "apologize",
-    prioritise: "prioritize", prioritised: "prioritized", customise: "customize",
-    customised: "customized", normalise: "normalize", normalised: "normalized",
-    serialise: "serialize", serialised: "serialized", initialise: "initialize",
-    initialised: "initialized", optimise: "optimize", optimised: "optimized",
-    summarise: "summarize", categorise: "categorize", categorised: "categorized",
-    standardise: "standardize", specialise: "specialize", emphasise: "emphasize",
-    criticise: "criticize", authorise: "authorize", authorised: "authorized",
-    minimise: "minimize", maximise: "maximize", visualise: "visualize",
-    utilise: "utilize", memorise: "memorize", synchronise: "synchronize",
-    synchronised: "synchronized",
+    ...Object.fromEntries(
+        Object.entries(ISE_VERBS).flatMap(([gb, us]) =>
+            ISE_ENDINGS.map((ending) => [gb.slice(0, -1) + ending, us.slice(0, -1) + ending]),
+        ),
+    ),
 };
 
 const WORD_RE = new RegExp(`\\b(${Object.keys(WORDS).join("|")})\\b`, "gi");

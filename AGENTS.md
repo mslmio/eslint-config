@@ -15,7 +15,8 @@ design rationale behind the rules, for anyone changing them.
   giving the rule a `docsUrl` option so a consumer can point at their own.
 - **`us-spelling` uses an explicit word map, never an `-ise`/`-ize` pattern.** A pattern flags
   `enterprise`, `surprise`, `advertise` and `otherwise`, all of which are correct US English. The
-  map is the reason the rule is usable at `error`.
+  map is the reason the rule is usable at `error`. An `-ise` verb is listed once, in `ISE_VERBS`,
+  and matched in every form; `analyse` stays out of it, since `analyses` is also the US plural.
 - **`require-leading-with-text-size` must tell a size from a color.** `text-[0.8125rem]` is the bug;
   `text-[oklch(...)]` is a color and needs no line height. `isLength` is what separates them - a
   naive `text-\[` match makes the rule unusable. **An unhinted variable is a color**:

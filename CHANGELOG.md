@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.2.0 - 2026-10-02
+
+### Features
+
+- us-spelling: catch catalogued, initialiser and other missing forms ([`e7ed1aa`](https://github.com/mslmio/eslint-config/commit/e7ed1aa263e170606156ebf94f23280a36805199))
+
 ## 2.1.0 - 2026-10-01
 
 ### Features

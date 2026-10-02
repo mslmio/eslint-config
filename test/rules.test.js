@@ -217,6 +217,9 @@ test("us-spelling: inflected forms", () => {
             // The plural of analysis, spelled the same in both.
             "const a = 'two analyses'",
             "const a = 'memoize memoized memoizes memoizing memoization'",
+            "const a = 'cataloged enrollment initializer recognizable neighborhood favorable traveling'",
+            // Only an -ise verb in the map takes -er and -able; these are US English.
+            "const a = 'advertiser advertisers advisable'",
         ],
         invalid: [
             { code: "// memoised", output: "// memoized", errors: 1 },
@@ -224,6 +227,16 @@ test("us-spelling: inflected forms", () => {
             { code: "// SYNCHRONISATIONS", output: "// SYNCHRONIZATIONS", errors: 1 },
             { code: "const a = 'it recognises'", output: null, errors: 1 },
             { code: "const a = 'favour, favoured, honoured, neighbouring, behavioural'", errors: 5 },
+            { code: "// initialiser", output: "// initializer", errors: 1 },
+            { code: "// Optimisers", output: "// Optimizers", errors: 1 },
+            { code: "// RECOGNISABLE", output: "// RECOGNIZABLE", errors: 1 },
+            { code: "// catalogued", output: "// cataloged", errors: 1 },
+            { code: "// two storeys", output: "// two stories", errors: 1 },
+            { code: "const a = 'already catalogued'", output: null, errors: 1 },
+            {
+                code: "const a = 'enrolment, signalled, modelled, travelling, neighbourhood, favourable'",
+                errors: 6,
+            },
         ],
     });
 });

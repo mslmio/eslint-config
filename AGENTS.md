@@ -16,7 +16,9 @@ design rationale behind the rules, for anyone changing them.
 - **`us-spelling` uses an explicit word map, never an `-ise`/`-ize` pattern.** A pattern flags
   `enterprise`, `surprise`, `advertise` and `otherwise`, all of which are correct US English. The
   map is the reason the rule is usable at `error`. An `-ise` verb is listed once, in `ISE_VERBS`,
-  and matched in every form; `analyse` stays out of it, since `analyses` is also the US plural.
+  and matched in every form, also behind an `ISE_PREFIXES` prefix (un-, re-, de-...) by one pattern
+  beside the map: listing those forms in the map tripled the rule's time. `analyse` stays out of
+  it, since `analyses` is also the US plural.
   Any other word lists every form on its family's line: the map matches whole words, so
   `catalogue` alone let `catalogued` through until 2.2.0.
 - **`require-leading-with-text-size` must tell a size from a color.** `text-[0.8125rem]` is the bug;

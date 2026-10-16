@@ -11,6 +11,9 @@ const ISE_VERBS = {
     utilise: "utilize", visualise: "visualize",
 };
 const ISE_ENDINGS = ["e", "ed", "es", "ing", "ation", "ations", "er", "ers", "able"];
+// A prefix an -ise verb takes as one word, which the fix keeps. A closed list, unlike
+// COMPOUND_STEMS's open one, which would also match the tail of a snake_case value.
+const ISE_PREFIXES = ["un", "re", "de", "dis", "pre", "over", "under", "mis"];
 
 const WORDS = {
     metre: "meter", metres: "meters", litre: "liter", litres: "liters", fibre: "fiber", fibres: "fibers",
@@ -73,6 +76,11 @@ const WORDS = {
 
 const WORD_RE = new RegExp(`\\b(${Object.keys(WORDS).join("|")})\\b`, "gi");
 const COMPOUND_RE = new RegExp(`\\b(\\w*?)(${Object.keys(COMPOUND_STEMS).join("|")})\\b`, "gi");
+const ISE_STEMS = Object.keys(ISE_VERBS).map((gb) => gb.slice(0, -1));
+const PREFIXED_ISE_RE = new RegExp(
+    `\\b(${ISE_PREFIXES.join("|")})(${ISE_STEMS.join("|")})(${ISE_ENDINGS.join("|")})\\b`,
+    "gi",
+);
 
 export default {
     meta: {
@@ -153,6 +161,10 @@ function findAll(text) {
     for (const m of text.matchAll(COMPOUND_RE)) {
         const stem = COMPOUND_STEMS[m[2].toLowerCase()];
         hits.push([m[0], m[1] + matchCase(m[2], stem)]);
+    }
+    for (const m of text.matchAll(PREFIXED_ISE_RE)) {
+        const stem = ISE_VERBS[`${m[2].toLowerCase()}e`].slice(0, -1);
+        hits.push([m[0], matchCase(m[0], `${m[1]}${stem}${m[3]}`.toLowerCase())]);
     }
     return hits;
 }

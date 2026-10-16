@@ -241,6 +241,36 @@ test("us-spelling: inflected forms", () => {
     });
 });
 
+test("us-spelling: an -ise verb behind a prefix", () => {
+    ts.run("us-spelling", usSpelling, {
+        valid: [
+            "const a = 'unrecognized deserialize reorganization underutilized'",
+            // A prefix and a word that only ends like an -ise verb.
+            "const a = 'revise premise disguise unwise'",
+            // The prefixes are a closed list, so a snake_case value's tail is not one.
+            "const a = 'speed_optimised'",
+        ],
+        invalid: [
+            { code: "// an unrecognised throw", output: "// an unrecognized throw", errors: 1 },
+            { code: "const a = 'an unrecognised throw'", output: null, errors: 1 },
+            { code: "// Deserialises", output: "// Deserializes", errors: 1 },
+            { code: "// UNAUTHORISED", output: "// UNAUTHORIZED", errors: 1 },
+            { code: "// unrecognisable", output: "// unrecognizable", errors: 1 },
+            { code: "// re-initialise", output: "// re-initialize", errors: 1 },
+            {
+                code: "const a = 'unauthorised uninitialised reinitialise deserialise disorganised'",
+                errors: 5,
+            },
+            {
+                code: "const a = 'unoptimised uncategorised deprioritise desynchronise reorganise'",
+                errors: 5,
+            },
+            { code: "const a = 'preauthorised overoptimised underutilised misrecognised'", errors: 4 },
+            { code: "const a = 'reorganisations'", output: null, errors: 1 },
+        ],
+    });
+});
+
 test("prefer-table-facets", () => {
     ts.run("prefer-table-facets", preferTableFacets, {
         valid: [

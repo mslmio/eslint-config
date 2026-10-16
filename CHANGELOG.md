@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.3.0 - 2026-10-16
+
+### Features
+
+- us-spelling: catch an -ise verb behind a prefix, such as unrecognised ([`41c52f4`](https://github.com/mslmio/eslint-config/commit/41c52f44b44a0f04bbf4cfeaabb3f93d622b2be6))
+
 ## 2.2.1 - 2026-10-05
 
 ### Fixes

@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.4.0 - 2026-10-16
+
+### Features
+
+- no-invisible-characters: no bidi controls anywhere, no zero-width characters in code ([`e88427b`](https://github.com/mslmio/eslint-config/commit/e88427b62b596997a5cbeb04af356aa067be33ff))
+
 ## 2.3.0 - 2026-10-16
 
 ### Features

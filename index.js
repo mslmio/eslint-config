@@ -45,6 +45,7 @@ export const house = [
             "mslmio/us-spelling": "error",
             "mslmio/no-express-json-spaces": "error",
             "mslmio/no-upward-import": "error",
+            "mslmio/no-invisible-characters": "error",
         },
     },
 ];

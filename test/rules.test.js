@@ -12,6 +12,7 @@ import requireLeading from "../rules/require-leading-with-text-size.js";
 import noPropertyShorthand from "../rules/no-property-shorthand.js";
 import noUpwardImport from "../rules/no-upward-import.js";
 import preferTableFacets from "../rules/prefer-table-facets.js";
+import noInvisibleCharacters from "../rules/no-invisible-characters.js";
 
 const ts = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "module" } });
 const jsx = new RuleTester({
@@ -295,5 +296,44 @@ test("prefer-table-facets", () => {
                 errors: [{ message: /See https:\/\/example\.com\/facets\.$/ }],
             },
         ],
+    });
+});
+
+test("no-invisible-characters", () => {
+    // Built from code points, so this file holds none of the characters it tests.
+    const [rlo, pdf, lri, bom] = [0x202e, 0x202c, 0x2066, 0xfeff].map((c) => String.fromCodePoint(c));
+    const [zwsp, zwnj, zwj] = [0x200b, 0x200c, 0x200d].map((c) => String.fromCodePoint(c));
+    const backslash = String.fromCodePoint(0x5c);
+    ts.run("no-invisible-characters", noInvisibleCharacters, {
+        valid: [
+            "const a = 1;",
+            // Text: a joiner in a Persian word or an emoji sequence, a space in a template or a pattern.
+            `const fa = "vi${zwnj}pi";`,
+            `const emoji = "a${zwj}b";`,
+            "const t = `a" + zwsp + "b`;",
+            `const r = /a${zwj}b/u;`,
+            `// a${zwj}b\nconst c = 1;`,
+            `/* a${zwnj}b */ const d = 1;`,
+            // The escape spelled out is what the message asks for.
+            `const e = "${backslash}u202e";`,
+        ],
+        invalid: [
+            { code: `const s = "a${rlo}b";`, errors: [{ messageId: "invisible" }] },
+            { code: `// x${rlo}\nconst a = 1;`, errors: [{ messageId: "invisible" }] },
+            { code: "const t = `a" + lri + "b`;", errors: [{ messageId: "invisible" }] },
+            { code: `const s = "${rlo}a${pdf}";`, errors: 2 },
+            { code: `const s = "a${bom}b";`, errors: [{ messageId: "invisible" }] },
+            // In code a joiner is part of a name, so `ab` and this one are two names that look like one.
+            { code: `const a${zwj}b = 1;`, errors: [{ message: /^U\+200D \(ZERO WIDTH JOINER\)/ }] },
+            {
+                code: `const s = "a${rlo}b";`,
+                options: [{ docsUrl: "https://example.com/escapes" }],
+                errors: [{ message: /See https:\/\/example\.com\/escapes\.$/ }],
+            },
+        ],
+    });
+    jsx.run("no-invisible-characters", noInvisibleCharacters, {
+        valid: [`const p = <p>a${zwsp}b</p>;`, `const q = <p title="a${zwj}b">x</p>;`],
+        invalid: [{ code: `const p = <p>a${rlo}b</p>;`, errors: [{ messageId: "invisible" }] }],
     });
 });

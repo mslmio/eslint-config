@@ -33,3 +33,11 @@ design rationale behind the rules, for anyone changing them.
   itself.
   The custom rule checks `parent.type === "ObjectExpression"`, which is also what keeps it off
   destructuring and imports; both parse as shorthand `Property` nodes and both are exempt.
+- **`no-invisible-characters` refuses the bidi controls everywhere but the zero-width characters only in
+  code.** An override or isolate reorders what a reader sees inside a string or a comment as much as in
+  code, which is the whole Trojan Source attack, so it is refused wherever it is. A joiner, non-joiner,
+  zero-width space or direction mark is text: when the rule was written (2026-10-16) the only three in
+  any of our JS/TS were a non-joiner inside Persian words in a provider catalog (twice) and a joiner in
+  an emoji sequence in a test. Outside a string, template, regex, JSX text or comment, the same
+  character makes two names look like one, so there it is refused. It reads the source text, not the
+  AST, so it needs no parser support, and a leading BOM, which ESLint strips, never reaches it.

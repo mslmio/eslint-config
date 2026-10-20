@@ -24,7 +24,7 @@
         "url": "https://github.com/mslmio/eslint-config/issues"
     },
     "type": "module",
-    "packageManager": "pnpm@11.1.0",
+    "packageManager": "pnpm@12.12.1",
     "publishConfig": {
         "access": "public",
         "registry": "https://registry.npmjs.org/"

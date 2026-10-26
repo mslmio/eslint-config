@@ -41,14 +41,16 @@ UI half behind `/ui` means the root entry resolves neither `@shadcn/lint` nor
 | `no-module-scope-init` | No client/config built at module scope; build lazily and memoize |
 | `no-express-json-spaces` | Express's `json spaces` indents but drops the trailing newline |
 | `prefer-copy-icon` | lucide `Copy`, not `Clipboard` |
-| `us-spelling` | US spelling in prose and identifiers |
+| `us-spelling` | US spelling in comments, string and template literals, and JSX text; identifiers are not checked |
 | `require-leading-with-text-size` | An arbitrary Tailwind text size must state its own line height |
 | `prefer-table-facets` | A `kind: "select"` filter lists the values its rows hold (facets), never a literal `options` list |
 | `no-invisible-characters` | No bidi control character anywhere, strings and comments included (Trojan Source), and no zero-width space, joiner or direction mark outside text: write one as an escape |
 
-`us-spelling` skips regex literals — a pattern matching scraped text has to accept both
+`us-spelling` fixes comments and JSX text, and only reports strings and templates, since one can be
+a wire value. It skips regex literals — a pattern matching scraped text has to accept both
 spellings — and takes `allow` for proper names that keep their own:
-`["mslmio/us-spelling", "error", { allow: ["Macquarie Data Centres"] }]`.
+`["mslmio/us-spelling", "error", { allow: ["Macquarie Data Centres"] }]`. A comment, string or
+JSX text holding an allowed phrase is skipped whole.
 
 `no-lib-process-env` exempts `main.*` by default: a runnable entry point living in a library
 directory IS the service. Override with `{ entryPoints: [...] }`.

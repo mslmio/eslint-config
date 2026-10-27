@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.5.0 - 2026-10-27
+
+### Features
+
+- us-spelling: allow exempts the phrase it names, not the whole comment ([`1d5987c`](https://github.com/mslmio/eslint-config/commit/1d5987cf6fd0ab9c61d0ded89d204db8b614ce74))
+
 ## 2.4.0 - 2026-10-16
 
 ### Features

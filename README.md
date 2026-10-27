@@ -49,8 +49,8 @@ UI half behind `/ui` means the root entry resolves neither `@shadcn/lint` nor
 `us-spelling` fixes comments and JSX text, and only reports strings and templates, since one can be
 a wire value. It skips regex literals — a pattern matching scraped text has to accept both
 spellings — and takes `allow` for proper names that keep their own:
-`["mslmio/us-spelling", "error", { allow: ["Macquarie Data Centres"] }]`. A comment, string or
-JSX text holding an allowed phrase is skipped whole.
+`["mslmio/us-spelling", "error", { allow: ["Macquarie Data Centres"] }]`. Only the phrase itself,
+matched case included, is exempt: a British word beside it in the same comment or string still reports.
 
 `no-lib-process-env` exempts `main.*` by default: a runnable entry point living in a library
 directory IS the service. Override with `{ entryPoints: [...] }`.

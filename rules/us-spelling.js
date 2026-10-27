@@ -100,17 +100,14 @@ export default {
         messages: { british: "Use US spelling: `{{bad}}` -> `{{good}}`." },
     },
     create(context) {
-        const allow = context.options[0]?.allow ?? [];
+        const allow = (context.options[0]?.allow ?? []).filter((phrase) => phrase);
         const sourceCode = context.sourceCode ?? context.getSourceCode();
 
         const check = (node, text, fixable) => {
             if (typeof text !== "string" || !text) {
                 return;
             }
-            if (allow.some((phrase) => text.includes(phrase))) {
-                return;
-            }
-            for (const [bad, good] of findAll(text)) {
+            for (const [bad, good] of findAll(blank(text, allow))) {
                 context.report({
                     node: node,
                     messageId: "british",
@@ -119,7 +116,7 @@ export default {
                         ? (fixer) => {
                               const range = node.range ?? [node.start, node.end];
                               const src = sourceCode.getText().slice(range[0], range[1]);
-                              return fixer.replaceTextRange(range, replaceWord(src, bad, good));
+                              return fixer.replaceTextRange(range, replaceWord(src, allow, bad, good));
                           }
                         : null,
                 });
@@ -149,8 +146,30 @@ export default {
     },
 };
 
-function replaceWord(src, bad, good) {
-    return src.replace(new RegExp(`\\b${bad}\\b`, "g"), good);
+// Matched in the blanked copy and written into the source, so an allowed phrase keeps its spelling.
+function replaceWord(src, allow, bad, good) {
+    let out = "";
+    let last = 0;
+    for (const m of blank(src, allow).matchAll(new RegExp(`\\b${bad}\\b`, "g"))) {
+        out += src.slice(last, m.index) + good;
+        last = m.index + bad.length;
+    }
+    return out + src.slice(last);
+}
+
+// Each allowed phrase as spaces of its length, so offsets carry over and the words beside it are still
+// checked. Phrases are found in the original text, so two that overlap are both exempt.
+function blank(text, allow) {
+    if (!allow.length) {
+        return text;
+    }
+    const chars = text.split("");
+    for (const phrase of allow) {
+        for (let at = text.indexOf(phrase); at !== -1; at = text.indexOf(phrase, at + 1)) {
+            chars.fill(" ", at, at + phrase.length);
+        }
+    }
+    return chars.join("");
 }
 
 function findAll(text) {

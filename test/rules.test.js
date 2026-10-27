@@ -212,6 +212,49 @@ test("us-spelling: fixes comments, never string literals", () => {
     });
 });
 
+test("us-spelling: allow exempts the phrase, not the text holding it", () => {
+    const allow = [{ allow: ["Macquarie Data Centres"] }];
+    ts.run("us-spelling", usSpelling, {
+        valid: [
+            { code: "// Macquarie Data Centres, a datacenter", options: allow },
+            // Phrases are found before any is blanked, so overlapping ones are both exempt.
+            {
+                code: "const a = 'Macquarie Data Centres'",
+                options: [{ allow: ["Macquarie Data", "Data Centres"] }],
+            },
+        ],
+        invalid: [
+            {
+                code: "// Macquarie Data Centres, a colour",
+                options: allow,
+                output: "// Macquarie Data Centres, a color",
+                errors: [{ messageId: "british", data: { bad: "colour", good: "color" } }],
+            },
+            // The fix rewrites the same word outside the phrase and leaves the phrase alone.
+            {
+                code: "// Macquarie Data Centres runs two Centres",
+                options: allow,
+                output: "// Macquarie Data Centres runs two Centers",
+                errors: 1,
+            },
+            { code: "const a = 'Macquarie Data Centres, a colour'", options: allow, output: null, errors: 1 },
+            // An empty phrase exempts nothing.
+            { code: "// a colour", options: [{ allow: [""] }], output: "// a color", errors: 1 },
+        ],
+    });
+    jsx.run("us-spelling", usSpelling, {
+        valid: [],
+        invalid: [
+            {
+                code: "<p>Macquarie Data Centres, a colour</p>",
+                options: allow,
+                output: "<p>Macquarie Data Centres, a color</p>",
+                errors: 1,
+            },
+        ],
+    });
+});
+
 test("us-spelling: inflected forms", () => {
     ts.run("us-spelling", usSpelling, {
         valid: [

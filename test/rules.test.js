@@ -13,6 +13,7 @@ import noPropertyShorthand from "../rules/no-property-shorthand.js";
 import noUpwardImport from "../rules/no-upward-import.js";
 import preferTableFacets from "../rules/prefer-table-facets.js";
 import noInvisibleCharacters from "../rules/no-invisible-characters.js";
+import noViewportHeight from "../rules/no-viewport-height.js";
 
 const ts = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "module" } });
 const jsx = new RuleTester({
@@ -380,3 +381,28 @@ test("no-invisible-characters", () => {
         invalid: [{ code: `const p = <p>a${rlo}b</p>;`, errors: [{ messageId: "invisible" }] }],
     });
 });
+
+test("no-viewport-height", () => {
+    jsx.run("no-viewport-height", noViewportHeight, {
+        valid: [
+            '<div className="min-h-svh h-dvh max-h-[calc(100dvh-2rem)]" />',
+            '<div className="h-[min(44rem,85dvh)] max-sm:h-full w-screen" />',
+            '<div className="max-h-[min(60svh,32rem,var(--room,100dvh))]" />',
+            // Not a height: a width, a position, a marker id.
+            '<div className="top-[10vh] w-[50vw]" data-c="k8p3vh" />',
+            'cn("min-h-dvh", "h-full")',
+            '<div style={{ height: "100dvh", width: "100vw" }} />',
+        ],
+        invalid: [
+            { code: '<div className="flex min-h-screen" />', errors: [{ messageId: "screen" }] },
+            { code: '<div className="sticky top-0 h-screen" />', errors: [{ messageId: "screen" }] },
+            { code: '<div className="max-md:max-h-screen" />', errors: [{ messageId: "screen" }] },
+            { code: '<div className="relative flex h-[min(44rem,85vh)]" />', errors: [{ messageId: "vh" }] },
+            { code: 'cn("max-h-[calc(100vh-2rem)]", x && "h-[100lvh]")', errors: 2 },
+            { code: '<div className="[min-height:100vh]" />', errors: [{ messageId: "vh" }] },
+            { code: '<div className="!h-screen" />', errors: 1 },
+            { code: '<div style={{ minHeight: "100vh" }} />', errors: [{ messageId: "vh" }] },
+        ],
+    });
+});
+

@@ -54,6 +54,7 @@ export const ui = [
             "mslmio/require-leading-with-text-size": "error",
             "mslmio/prefer-copy-icon": "error",
             "mslmio/prefer-table-facets": "error",
+            "mslmio/no-viewport-height": "error",
         },
     },
 ];

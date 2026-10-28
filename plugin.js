@@ -8,6 +8,7 @@ import noPropertyShorthand from "./rules/no-property-shorthand.js";
 import noUpwardImport from "./rules/no-upward-import.js";
 import preferTableFacets from "./rules/prefer-table-facets.js";
 import noInvisibleCharacters from "./rules/no-invisible-characters.js";
+import noViewportHeight from "./rules/no-viewport-height.js";
 
 export default {
     meta: { name: "@mslmio/eslint-plugin", version: "2.5.0" },
@@ -22,5 +23,6 @@ export default {
         "no-upward-import": noUpwardImport,
         "prefer-table-facets": preferTableFacets,
         "no-invisible-characters": noInvisibleCharacters,
+        "no-viewport-height": noViewportHeight,
     },
 };

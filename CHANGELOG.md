@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.6.0 - 2026-10-28
+
+### Features
+
+- no-viewport-height: no height in vh, lvh or *-screen ([`8b0af06`](https://github.com/mslmio/eslint-config/commit/8b0af06e69a39939e22004eb981f1ba93b47215e))
+
 ## 2.5.0 - 2026-10-27
 
 ### Features

@@ -11,7 +11,7 @@ import noInvisibleCharacters from "./rules/no-invisible-characters.js";
 import noViewportHeight from "./rules/no-viewport-height.js";
 
 export default {
-    meta: { name: "@mslmio/eslint-plugin", version: "2.5.0" },
+    meta: { name: "@mslmio/eslint-plugin", version: "2.6.0" },
     rules: {
         "no-lib-process-env": noLibProcessEnv,
         "no-module-scope-init": noModuleScopeInit,

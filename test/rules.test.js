@@ -388,8 +388,8 @@ test("no-viewport-height", () => {
             '<div className="min-h-svh h-dvh max-h-[calc(100dvh-2rem)]" />',
             '<div className="h-[min(44rem,85dvh)] max-sm:h-full w-screen" />',
             '<div className="max-h-[min(60svh,32rem,var(--room,100dvh))]" />',
-            // Not a height: a width, a position, a marker id.
-            '<div className="top-[10vh] w-[50vw]" data-c="k8p3vh" />',
+            // Not a vh height: a width, a position, a variable whose name ends in a digit and "vh".
+            '<div className="top-[10vh] w-[50vw] h-[var(--nav3vh)]" />',
             'cn("min-h-dvh", "h-full")',
             '<div style={{ height: "100dvh", width: "100vw" }} />',
         ],

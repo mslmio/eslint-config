@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.6.1 - 2026-11-02
+
+### Fixes
+
+- Move @typescript-eslint/parser and eslint-plugin to 8.72.0 ([`6925bb1`](https://github.com/mslmio/eslint-config/commit/6925bb11b0e068568fa38e3130a44101c5bb11fa))
+
 ## 2.6.0 - 2026-10-28
 
 ### Features

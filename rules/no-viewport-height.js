@@ -7,7 +7,7 @@ const SCREEN_RE = /^(min-|max-)?h-screen$/;
 // A height utility's arbitrary value, or an arbitrary height property: `h-[85vh]`, `max-h-[calc(100vh-2rem)]`,
 // `[min-height:100lvh]`.
 const HEIGHT_ARB_RE = /^(?:(?:min-|max-)?h|size)-\[(.+)\]$|^\[(?:min-height|max-height|height):(.+)\]$/;
-// A `vh` or `lvh` length, never `dvh` or `svh`, nor the end of a word such as an id.
+// A `vh` or `lvh` length, never `dvh` or `svh`, nor the end of a word such as an ID.
 const VH_RE = /(?:^|[^a-z0-9.])(?:\d+\.?\d*|\.\d+)l?vh(?![a-z0-9])/i;
 const STYLE_HEIGHTS = new Set(["height", "minHeight", "maxHeight"]);
 

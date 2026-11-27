@@ -2,6 +2,12 @@
 
 What each release changed for you, newest first. Each line is a commit's summary, linked to its full description and diff. Releases before 1.2.0 are described by their release commits.
 
+## 2.7.0 - 2026-11-27
+
+### Features
+
+- motion-classes: what moves names its properties, never starts slow ([`9be2873`](https://github.com/mslmio/eslint-config/commit/9be2873a700da2d28fdc2d3e8e66ba35117549f4))
+
 ## 2.6.2 - 2026-11-24
 
 ### Fixes

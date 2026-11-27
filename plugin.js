@@ -12,7 +12,7 @@ import noViewportHeight from "./rules/no-viewport-height.js";
 import motionClasses from "./rules/motion-classes.js";
 
 export default {
-    meta: { name: "@mslmio/eslint-plugin", version: "2.6.2" },
+    meta: { name: "@mslmio/eslint-plugin", version: "2.7.0" },
     rules: {
         "no-lib-process-env": noLibProcessEnv,
         "no-module-scope-init": noModuleScopeInit,

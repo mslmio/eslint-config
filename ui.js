@@ -55,6 +55,7 @@ export const ui = [
             "mslmio/prefer-copy-icon": "error",
             "mslmio/prefer-table-facets": "error",
             "mslmio/no-viewport-height": "error",
+            "mslmio/motion-classes": "error",
         },
     },
 ];

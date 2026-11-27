@@ -9,6 +9,7 @@ import noUpwardImport from "./rules/no-upward-import.js";
 import preferTableFacets from "./rules/prefer-table-facets.js";
 import noInvisibleCharacters from "./rules/no-invisible-characters.js";
 import noViewportHeight from "./rules/no-viewport-height.js";
+import motionClasses from "./rules/motion-classes.js";
 
 export default {
     meta: { name: "@mslmio/eslint-plugin", version: "2.6.2" },
@@ -24,5 +25,6 @@ export default {
         "prefer-table-facets": preferTableFacets,
         "no-invisible-characters": noInvisibleCharacters,
         "no-viewport-height": noViewportHeight,
+        "motion-classes": motionClasses,
     },
 };

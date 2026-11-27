@@ -14,6 +14,7 @@ import noUpwardImport from "../rules/no-upward-import.js";
 import preferTableFacets from "../rules/prefer-table-facets.js";
 import noInvisibleCharacters from "../rules/no-invisible-characters.js";
 import noViewportHeight from "../rules/no-viewport-height.js";
+import motionClasses from "../rules/motion-classes.js";
 
 const ts = new RuleTester({ languageOptions: { ecmaVersion: 2022, sourceType: "module" } });
 const jsx = new RuleTester({
@@ -406,3 +407,27 @@ test("no-viewport-height", () => {
     });
 });
 
+
+test("motion-classes", () => {
+    jsx.run("motion-classes", motionClasses, {
+        valid: [
+            '<div className="transition-colors ease-in-out data-open:zoom-in-95 scale-100" />',
+            '<div className="transition-[color,box-shadow] ease-out" />',
+            '<div style={{ transition: "opacity 200ms" }} />',
+            // Text a person reads is not a class list.
+            "<p>Easing: ease-in is never used here.</p>",
+        ],
+        invalid: [
+            { code: '<div className="flex transition-all duration-200" />', errors: [{ messageId: "motion" }] },
+            { code: '<div className="data-open:transition-all" />', errors: 1 },
+            { code: 'cva("inline-flex transition-all outline-none")', errors: 1 },
+            { code: "cn(`h-1 ${x} transition-all`)", errors: 1 },
+            { code: '<div className="ease-in duration-150" />', errors: 1 },
+            { code: '<div className="scale-0 data-checked:scale-100" />', errors: 1 },
+            { code: '<div className="data-open:zoom-in-0" />', errors: 1 },
+            { code: '<div style={{ transition: "all 200ms" }} />', errors: 1 },
+            { code: 'el.animate(frames, { duration: 200, easing: "ease-in" })', errors: 1 },
+            { code: "const css = `.x { transition: all 0.2s; }`", errors: 1 },
+        ],
+    });
+});
